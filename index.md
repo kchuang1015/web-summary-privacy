@@ -1,0 +1,288 @@
+# Privacy Policy
+
+**"AI Web Summary & Translate" Chrome Extension**
+
+Last updated: 2026-07-10
+
+---
+
+## Overview
+
+"AI Web Summary & Translate" (the "Extension") is maintained by an independent developer. It helps you summarize and translate web pages using a large language model (LLM) endpoint that **you configure yourself**.
+
+We take your privacy seriously. This policy explains what data the Extension processes, how, and what your rights are.
+
+---
+
+## Data we do NOT collect
+
+The developer collects **no user data whatsoever** on any server. The Extension:
+
+- Contains no trackers or analytics (Google Analytics, Mixpanel, etc.)
+- Shows no ads
+- Sends nothing to the developer
+- Shares nothing with any third party
+
+---
+
+## Data processed locally on your device
+
+### 1. Settings
+
+Everything you enter on the Settings page is stored only in your Chrome browser's storage:
+
+- AI provider choice (AWS Bedrock or OpenAI-compatible)
+- AWS Access Key ID / Secret Access Key (if using Bedrock)
+- AWS region, Bedrock model ID
+- OpenAI-compatible endpoint URL, API key, model name
+- Summary / translation prompt templates (including per-length custom versions)
+- Keyboard shortcuts
+- Translation color, bilingual display preference, translation scope
+- Whether to include page images, result display mode (dialog / side panel)
+
+**Where your API keys live is your choice:**
+
+- **Default — "this device only"** (`chrome.storage.local`): API keys (AWS Access/Secret keys and any OpenAI-compatible keys) **never leave this device** and are not synced through your Google account.
+- If you uncheck "Keep API keys only on this device" under Settings → Key Storage, keys are stored in `chrome.storage.sync` and sync across your signed-in Chrome devices (**not additionally encrypted**).
+- Other non-sensitive settings (model choice, prompts, shortcuts, etc.) always use `chrome.storage.sync` so they follow you across devices.
+
+In either mode, none of this is ever sent to the developer or any third party. We still recommend:
+
+- Do not store high-privilege API credentials on public/shared computers
+- Rotate API keys regularly
+- Use least-privilege IAM policies (for Bedrock)
+
+### 2. Page content
+
+When you actively trigger "Summarize" or "Translate", the Extension:
+
+- Reads the visible text of the current tab
+- (If you enabled "include images" and use a vision-capable model) reads page images. Image fetching first goes through the service worker without your cookies (`credentials: 'omit'`); only if the image host blocks that (hotlink protection / WAF) is it re-fetched once from the page context. Fetched images are converted to base64.
+
+This data is sent to **the AI endpoint you configured yourself**. The developer has no access to it and operates no intermediary server.
+
+### 3. Local history & cache of summaries / translations
+
+For review convenience and token savings, results are kept in **your browser's local** `chrome.storage.local`:
+
+- **Recent results (`resultHistory`)**: summaries and selection results (including follow-up Q&A). The total size budget is adjustable in Settings (5–100 MB, default 20 MB); the oldest entries are evicted automatically when over budget. You can delete entries individually or clear everything in the viewer page.
+- **Translation cache (`translationCache`)**: translations of identical paragraphs (same model, same language) so re-reading a page costs nothing; LRU eviction with a size cap.
+
+**Your controls:**
+
+- Settings → "Keep a local Recent results history" can **turn history off** (recommended for sensitive content such as intranet, medical, or financial pages).
+- Settings → "Reuse recent results for repeated content" controls the **translation cache**.
+- Settings → "Clear recent results & translation cache" deletes both with **one click**; removing the Extension also deletes all local data.
+
+All of this stays **on your device only** — never sent to the developer or any third party.
+
+---
+
+## Third-party services
+
+The Extension sends the page content described above to the AI endpoint you specify. You are responsible for understanding and agreeing to that endpoint's privacy policy. Common endpoints:
+
+- **AWS Bedrock**: see the [AWS Service Terms](https://aws.amazon.com/service-terms/)
+- **Official OpenAI API**: see the [OpenAI Privacy Policy](https://openai.com/privacy)
+- **Self-hosted / local LLMs** (vLLM, Ollama, LM Studio, etc.): governed by your own deployment
+- **Third-party OpenAI-compatible cloud services**: see that provider's privacy policy
+
+The developer is not responsible for any third-party service's data handling.
+
+---
+
+## Permissions
+
+The Extension requests the following Chrome permissions, each used only for its core features:
+
+| Permission | Purpose |
+|---|---|
+| `storage` | Stores the settings above, plus "Recent results" and the translation cache (size budget adjustable in Settings: 5–100 MB, default 20 MB, auto-eviction; local `chrome.storage.local`, never synced, deletable any time in the viewer) |
+| `scripting` | Injects the content script into the page to show results and translations |
+| `contextMenus` | Adds the right-click "Summarize / Translate selection" items; runs only when you select text and click them |
+| `sidePanel` | Optional display mode: summary results can be shown in the browser side panel (independent per tab). The panel only renders results you explicitly requested; it reads nothing by itself |
+| `unlimitedStorage` | Lets you raise the local "Recent results" size budget (5–100 MB) in Settings. The data still lives **only on your device** — never synced or uploaded |
+| `host_permissions: <all_urls>` | Lets the Extension work on any site you're reading, and lets the service worker fetch your configured AI endpoint and page-image CDNs (CORS bypass) |
+
+To respond to keyboard shortcuts instantly, the content script loads on all pages, but it **only listens for the shortcuts you configured**; it never reads or uploads page content in the background — content is extracted only when you explicitly trigger a summary/translation.
+
+---
+
+## Your rights & controls
+
+- **Remove at any time**: removing the Extension at `chrome://extensions` deletes all its settings data
+- **View / change settings**: right-click the icon → Options
+- **Clear data**: remove the Extension, or clear manually via Chrome DevTools → Application → Storage
+- **Withdraw Google-account sync**: turn off sync in Chrome settings
+
+---
+
+## Children's privacy
+
+The Extension is not designed for children under 13 and does not knowingly collect children's data.
+
+---
+
+## Policy changes
+
+Material changes will be reflected on this page with an updated "Last updated" date. Please check back periodically.
+
+---
+
+## Contact
+
+For any privacy questions:
+
+- Email: kchuang1015@gmail.com
+
+---
+
+## Source code
+
+The Extension's source code is not currently public. If it is open-sourced later, a link will be added here for review. If you have questions about how privacy is implemented, email us — we're happy to explain the technical details.
+
+---
+---
+
+# 隱私權政策
+
+**「網頁摘要與翻譯助手」Chrome Extension**
+
+最後更新日期：2026-07-10
+
+---
+
+## 簡介
+
+「網頁摘要與翻譯助手」（以下簡稱「本擴充功能」）由獨立開發者維運，目的是協助使用者透過自行設定的大型語言模型（LLM）對網頁內容進行摘要與翻譯。
+
+我們重視您的隱私。本政策說明本擴充功能會處理哪些資料、如何處理、以及您的權利。
+
+---
+
+## 我們不收集的資料
+
+開發者**完全不收集**任何使用者資料到自己的伺服器。本擴充功能：
+
+- 不放追蹤碼、分析工具（Google Analytics、Mixpanel 等）
+- 不放廣告
+- 不會把任何資料傳給開發者
+- 不會與任何第三方分享資料
+
+---
+
+## 在您裝置本機處理的資料
+
+### 1. 設定資料
+
+您在「設定」頁填入的以下資料，僅儲存在您 Chrome 瀏覽器本機的 storage：
+
+- AI 提供者選擇（Bedrock 或 OpenAI 相容）
+- AWS Access Key ID / Secret Access Key（若使用 Bedrock）
+- AWS 區域、Bedrock 模型 ID
+- OpenAI 相容 endpoint URL、API key、模型名稱
+- 摘要 / 翻譯的 prompt 模板（含短／中／長三種摘要長度的自訂版本）
+- 鍵盤快捷鍵設定
+- 翻譯文字顏色、雙語顯示偏好、翻譯範圍
+- 是否包含網頁圖片、結果顯示方式（彈出視窗／側邊欄）
+
+**API 金鑰的存放位置由您決定：**
+
+- **預設「只存這台裝置」**（`chrome.storage.local`）：API 金鑰（AWS Access/Secret Key、各 OpenAI 相容金鑰）**不會**離開這台裝置、不經 Google 帳號同步。
+- 若您在「設定 → 金鑰儲存」取消勾選「API 金鑰只存這台裝置」，則金鑰改存 `chrome.storage.sync`，會透過 Google 帳號在您登入的其他 Chrome 裝置之間同步（**未額外加密**）。
+- 其餘非敏感設定（模型選擇、prompt、快捷鍵等）不論如何都存在 `chrome.storage.sync` 以便跨裝置同步。
+
+無論哪種模式，這些資料都不會傳送給開發者或任何第三方。仍建議：
+
+- 不要在公用 / 共享電腦上儲存高權限的 API 認證
+- 定期更換 API key
+- 使用最小權限原則的 IAM 設定（Bedrock 場景）
+
+### 2. 網頁內容
+
+當您主動觸發「摘要」或「翻譯」時，本擴充功能會：
+
+- 讀取當前分頁的可見文字內容
+- （若您勾選「包含圖片」且使用支援 vision 的模型）讀取頁面圖片。圖片抓取先由 service worker 直連（不帶您的 cookie，`credentials: 'omit'`）；若該圖片來源有防盜鏈／WAF 而擋下，才改由頁面情境重抓一次。抓到的圖片會轉為 base64。
+
+這些資料會被傳送到**您自行設定的 AI 端點**處理。本擴充功能開發者完全無法接觸此資料，也沒有任何中介伺服器。
+
+### 3. 摘要／譯文的本機保存（歷史與快取）
+
+為了方便回顧與節省 token，本擴充功能會把結果保存在**您瀏覽器的本機** `chrome.storage.local`：
+
+- **最近結果（`resultHistory`）**：摘要與選取結果（含追問問答），總容量可在設定調整（5–100MB、預設 20MB），超出時自動汰舊最舊的紀錄。可在「最近結果」檢視頁**逐筆刪除**或**全部清除**。
+- **翻譯快取（`translationCache`）**：相同段落（同模型、同語言）的譯文，用於重看同頁時免重複計費，有 LRU 汰換與容量上限。
+
+**您的控制方式：**
+
+- 設定 →「儲存『最近結果』歷史」可**關閉歷史保存**（敏感內容如內網、醫療、財務等建議關閉）。
+- 設定 →「重複內容時重用最近結果」控制**翻譯快取**是否啟用。
+- 設定 →「清除最近結果與翻譯快取」可**一鍵刪除**兩者；或移除擴充功能也會清掉所有本機資料。
+
+這些內容**只存在您本機**、不會傳給開發者或任何第三方。
+
+---
+
+## 第三方服務
+
+本擴充功能會將上述「網頁內容」傳送到您指定的 AI 端點。使用者必須自行了解並同意該端點的隱私政策與資料處理方式。常見端點：
+
+- **AWS Bedrock**：請參照 [AWS 服務條款](https://aws.amazon.com/service-terms/)
+- **OpenAI 官方 API**：請參照 [OpenAI Privacy Policy](https://openai.com/privacy)
+- **自架 / 本地 LLM**（vLLM、Ollama、LM Studio 等）：受您自己的部署環境管控
+- **第三方 OpenAI 相容雲端服務**：請參照該服務商的隱私政策
+
+開發者對任何第三方服務的資料處理方式不負責。
+
+---
+
+## 權限使用
+
+本擴充功能在 Chrome 上請求以下權限，每項只用於本擴充功能的核心功能：
+
+| 權限 | 用途 |
+|---|---|
+| `storage` | 儲存上述設定資料，以及「最近結果」與翻譯快取（總容量可在設定調整：5–100MB、預設 20MB，超出自動汰舊，存於本機 `chrome.storage.local`，不同步、可在檢視頁隨時刪除或清空，詳見上方第 3 節） |
+| `scripting` | 在頁面上注入 content script 以顯示結果與翻譯 |
+| `contextMenus` | 提供右鍵選單「摘要／翻譯選取內容」；僅在你選取文字並點擊時作用 |
+| `sidePanel` | 選用的結果顯示模式：摘要結果可改顯示在瀏覽器側邊欄（每個分頁獨立）。面板只顯示您主動觸發的結果，不會自行讀取任何內容 |
+| `unlimitedStorage` | 讓「最近結果」本機歷史的容量上限可由您在設定中調整（5–100MB）。資料仍**只存在您本機**，不同步、不上傳 |
+| `host_permissions: <all_urls>` | 讓擴充能在任何網站上工作，並讓 service worker 對你指定的 AI 端點與頁面圖片 CDN 發 fetch（繞過 CORS） |
+
+為即時回應快捷鍵，content script 以 `<all_urls>` 於各分頁載入，但**僅監聽你設定的快捷鍵**；不在背景持續讀取或上傳頁面內容，只有你明確觸發摘要／翻譯時才擷取當前分頁內容。
+
+---
+
+## 您的權利與控制
+
+- **隨時移除**：在 `chrome://extensions` 頁面移除本擴充功能，所有設定資料會一併刪除
+- **檢視 / 修改設定**：右鍵點擊圖示 → 選項
+- **清除設定**：移除擴充功能即可；或在 Chrome devtools 的 Application → Storage 手動清除
+- **撤回 Google 帳號同步**：在 Chrome 設定中關閉同步功能
+
+---
+
+## 兒童隱私
+
+本擴充功能無針對 13 歲以下兒童設計，也不會主動收集兒童資料。
+
+---
+
+## 政策變更
+
+如本政策有重大變更，會更新本頁內容並調整「最後更新日期」。建議定期回來檢視。
+
+---
+
+## 聯絡方式
+
+如有任何隱私相關問題：
+
+- Email：kchuang1015@gmail.com
+
+---
+
+## 原始碼
+
+本擴充功能目前未公開原始碼。若日後開源，會在此更新程式碼連結供審閱。對隱私實作有任何疑問，歡迎來信詢問，我們樂意說明技術細節。
