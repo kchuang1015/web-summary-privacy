@@ -61,7 +61,7 @@ When you actively trigger "Summarize" or "Translate", the Extension:
 
 This data is sent to **the AI endpoint you configured yourself**. The developer has no access to it and operates no intermediary server.
 
-**YouTube summaries**: on a YouTube video page, the Extension reads the video's caption data from YouTube within that page (without your signed-in credentials, and never sent to the developer); the caption text is then sent to the AI endpoint you configured (or processed fully on-device by the built-in AI).
+**YouTube summaries**: on a YouTube video page, the Extension reads the video's caption data from YouTube within that page (the primary path does not use your signed-in credentials; only if it fails, a fallback retries using your existing YouTube session within that page — all reads stay inside the YouTube page and nothing is ever sent to the developer); the caption text is then sent to the AI endpoint you configured (or processed fully on-device by the built-in AI).
 
 **Chrome built-in AI mode**: if you choose "Chrome built-in AI" (Gemini Nano) in Settings, the content above is processed by the browser's built-in model **entirely on your computer** — no network request is made to any external endpoint, and the content never leaves your device.
 
