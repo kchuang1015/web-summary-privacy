@@ -21,7 +21,7 @@ The developer collects **no user data whatsoever** on any server. The Extension:
 - Contains no trackers or analytics (Google Analytics, Mixpanel, etc.)
 - Shows no ads
 - Sends nothing to the developer
-- Shares nothing with any third party
+- No developer-operated server and no intermediary (content goes only to the AI endpoint you configure; with Chrome built-in AI it stays fully on-device)
 
 ---
 
@@ -32,7 +32,7 @@ The developer collects **no user data whatsoever** on any server. The Extension:
 Everything you enter on the Settings page is stored only in your Chrome browser's storage:
 
 - AI provider choice (AWS Bedrock or OpenAI-compatible)
-- AWS Access Key ID / Secret Access Key (if using Bedrock)
+- Bedrock API Key (if using Bedrock; v1.14 uses a Bearer API key instead of Access/Secret keys)
 - AWS region, Bedrock model ID
 - OpenAI-compatible endpoint URL, API key, model name
 - Summary / translation prompt templates (including per-length custom versions)
@@ -42,11 +42,11 @@ Everything you enter on the Settings page is stored only in your Chrome browser'
 
 **Where your API keys live is your choice:**
 
-- **Default — "this device only"** (`chrome.storage.local`): API keys (AWS Access/Secret keys and any OpenAI-compatible keys) **never leave this device** and are not synced through your Google account.
+- **Default — "this device only"** (`chrome.storage.local`): API keys (Bedrock API Key and any OpenAI-compatible keys) **never leave this device** and are not synced through your Google account.
 - If you uncheck "Keep API keys only on this device" under Settings → Key Storage, keys are stored in `chrome.storage.sync` and sync across your signed-in Chrome devices (**not additionally encrypted**).
 - Other non-sensitive settings (model choice, prompts, shortcuts, etc.) always use `chrome.storage.sync` so they follow you across devices.
 
-In either mode, none of this is ever sent to the developer or any third party. We still recommend:
+In either mode, none of this is ever sent to a developer-operated server or any intermediary (only to the endpoint YOU configured, and only when you use a cloud endpoint). We still recommend:
 
 - Do not store high-privilege API credentials on public/shared computers
 - Rotate API keys regularly
@@ -80,7 +80,7 @@ For review convenience and token savings, results are kept in **your browser's l
 - Settings → "Reuse recent results for repeated content" controls the **translation cache**.
 - Settings → "Clear recent results & translation cache" deletes both with **one click**; removing the Extension also deletes all local data.
 
-All of this stays **on your device only** — never sent to the developer or any third party.
+All of this stays **on your device only** — never sent to a developer-operated server or intermediary (only when you actively use auto-tags / topic pages / knowledge Q&A does the relevant content go to the AI endpoint you chose).
 
 ---
 
