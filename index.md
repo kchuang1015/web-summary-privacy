@@ -2,7 +2,7 @@
 
 **"WholeTake" Chrome Extension**
 
-Last updated: 2026-08-07
+Last updated: 2026-08-20
 
 ---
 
@@ -132,6 +132,7 @@ The Extension requests the following Chrome permissions, each used only for its 
 | `sidePanel` | Display mode (default since v1.28): summary results are shown in the browser side panel, **only on tabs where you triggered a summary** (per-tab content; the panel does not follow you to other tabs); you can switch back to the in-page dialog in Settings. The panel only renders results you explicitly requested; it reads nothing by itself |
 | `unlimitedStorage` | Lets you raise the local "Recent results" size budget (5 MB–1 GB) in Settings. The data still lives **only on your device** — never synced or uploaded |
 | `host_permissions: <all_urls>` | Lets the Extension work on any site you're reading, and lets the service worker fetch your configured AI endpoint and page-image CDNs (CORS bypass) |
+| `declarativeNetRequestWithHostAccess` | Used ONLY to strip the `Origin` header from requests the Extension itself sends to your own configured local AI endpoint (loopback such as Ollama / LM Studio). Local servers reject the browser-added `Origin: chrome-extension://<id>` with a CORS 403; removing it lets your own local model accept the request. The rule is scoped by `initiatorDomains` to THIS extension's initiator only (never any web page), covers loopback automatically and LAN only after you explicitly opt in, and NEVER public endpoints — one `modifyHeaders(remove Origin)` rule per configured local endpoint origin (typically one, at most four - deduplicated across the main/summarize/translate/knowledge endpoints), and nothing else: it does not block, redirect, read ordinary web-page traffic, or read/modify cookies |
 
 To respond to keyboard shortcuts instantly, the content script loads on all pages, but it **only listens for the shortcuts you configured**; it never reads or uploads page content in the background — content is extracted only when you explicitly trigger a summary/translation.
 
