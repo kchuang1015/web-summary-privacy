@@ -2,7 +2,7 @@
 
 **"WholeTake" Chrome Extension**
 
-Last updated: 2026-08-20
+Last updated: 2026-08-22
 
 ---
 
@@ -64,10 +64,10 @@ When you actively trigger "Summarize" or "Translate", the Extension sends the fo
 
 The developer has no access to this data and operates no intermediary server.
 
-**After a summary, two small extra calls run automatically by default** (both to your same model endpoint):
+**Automatic calls beyond the summary itself** (on by default, all to your same model endpoint, each can be turned off in Settings):
 
-- **Auto tags** (on by default, can be turned off): after the summary completes, it sends the **full summary (up to ~4,000 characters)** plus the title and your existing tag list to extract 3–6 topic tags. When the main summary is served from cache, this call is not re-run either.
-- **Suggested questions** (on by default, can be turned off): for a **fresh summary** it sends the **full summary (up to ~4,000 characters)** to generate 3 follow-up questions, and saves them **on your device** alongside that summary. **When the main summary is served from the local cache, the pre-generated questions are reused directly — no extra model call is made** (if an older record has no saved questions, none are shown and none are fetched).
+- **Auto tags**: after the summary completes, one extra small call sends the **summary excerpt (up to ~4,000 characters)** plus the title and your existing tag list to extract 3–6 topic tags. When the main summary is served from cache and that record already has tags, this call is not re-run; an older record missing tags gets a one-time backfill call whose result is saved back (a failed backfill is remembered, so it is not re-billed on every cache hit).
+- **Suggested questions**: since v1.35, on cloud models the 3 follow-up questions are produced **in the same single summary call** — no separate model call is made and no additional content is sent for them. A separate small call sending the **summary excerpt (up to ~4,000 characters)** happens only when the question section of the summary output fails to parse (one automatic fallback call) or with Chrome built-in AI (which deliberately keeps the two-stage flow). The questions are saved **on your device** alongside that summary; **when the main summary is served from the local cache, the saved questions are reused directly — no extra model call** (an older record missing questions gets a one-time backfill call whose result is saved back).
 
 Topic pages, mind maps, and knowledge-base Q&A are **manually triggered** (see Section 3 below and DATA_FLOW.md). Exactly what each feature sends, whether it is automatic, and the estimated number of model calls are laid out in the **data-flow matrix (DATA_FLOW.md)**.
 
@@ -134,7 +134,7 @@ The Extension requests the following Chrome permissions, each used only for its 
 | `host_permissions: <all_urls>` | Lets the Extension work on any site you're reading, and lets the service worker fetch your configured AI endpoint and page-image CDNs (CORS bypass) |
 | `declarativeNetRequestWithHostAccess` | Used ONLY to strip the `Origin` header from requests the Extension itself sends to your own configured local AI endpoint (loopback such as Ollama / LM Studio). Local servers reject the browser-added `Origin: chrome-extension://<id>` with a CORS 403; removing it lets your own local model accept the request. The rule is scoped by `initiatorDomains` to THIS extension's initiator only (never any web page), covers loopback automatically and LAN only after you explicitly opt in, and NEVER public endpoints — one `modifyHeaders(remove Origin)` rule per configured local endpoint origin (typically one, at most four - deduplicated across the main/summarize/translate/knowledge endpoints), and nothing else: it does not block, redirect, read ordinary web-page traffic, or read/modify cookies |
 
-To respond to keyboard shortcuts instantly, the content script loads on all pages, but it **only listens for the shortcuts you configured**; it never reads or uploads page content in the background — content is extracted only when you explicitly trigger a summary/translation.
+The content script is injected **on demand** (since v1.37): the only script resident on pages is a ~1KB shortcut listener (it matches key combos only and never reads page content); the full script loads into the current tab only when you trigger a summary/translation (keyboard shortcut, context menu, or popup) and **no longer loads on every page**. Content is extracted only when you explicitly trigger it, never read or uploaded in the background.
 
 ---
 
