@@ -38,17 +38,25 @@ Everything you enter on the Settings page is stored only in your Chrome browser'
 - AWS region, Bedrock model ID
 - OpenAI-compatible endpoint URL, API key, model name
 - Summary / translation prompt templates (including per-length custom versions)
-- Keyboard shortcuts
 - Translation color, bilingual display preference, translation scope
 - Whether to include page images, result display mode (dialog / side panel)
 
+Keyboard shortcuts are **not** in that list: since v1.39 the Extension has no in-page
+shortcut handling of its own, and the three browser-level shortcuts are managed by
+Chrome's own **Keyboard shortcuts** page (`chrome://extensions/shortcuts`) and stored
+by Chrome, not by the Extension.
+
 **Where your API keys live is your choice:**
 
-- **Default — "this device only"** (`chrome.storage.local`): API keys (Bedrock API Key and any OpenAI-compatible keys) **never leave this device** and are not synced through your Google account.
-- If you uncheck "Keep API keys only on this device" under Settings → Key Storage, keys are stored in `chrome.storage.sync` and sync across your signed-in Chrome devices (**not additionally encrypted**).
-- Other non-sensitive settings (model choice, prompts, shortcuts, etc.) always use `chrome.storage.sync` so they follow you across devices.
+Keys have **three** storage modes, chosen under Settings → Key Storage:
 
-In either mode, none of this is ever sent to a developer-operated server or any intermediary (only to the endpoint YOU configured, and only when you use a cloud endpoint). We still recommend:
+- **Default — "this device only"** (`chrome.storage.local`): API keys (Bedrock API Key and any OpenAI-compatible keys) **never leave this device** and are not synced through your Google account.
+- **"Keep keys only until the browser closes"** (`sessionCreds` in `chrome.storage.session`, added in v1.37): keys are **never written to disk and never synced**, and are cleared automatically when the browser closes — you will need to re-enter them next time. Recommended for shared computers and high-sensitivity environments. Requires "Keep API keys only on this device" to be checked first.
+  A note so this is not oversold: this is **not a password vault** — while the browser is open, the Extension's trusted contexts (background service worker, Settings page) still read it in order to call the AI endpoint you configured.
+- If you uncheck "Keep API keys only on this device" under Settings → Key Storage, keys are stored in `chrome.storage.sync` and sync across your signed-in Chrome devices (**not additionally encrypted**).
+- Other non-sensitive settings (model choice, prompts, etc.) always use `chrome.storage.sync` so they follow you across devices.
+
+Whichever mode you choose, none of this is ever sent to a developer-operated server or any intermediary (only to the endpoint YOU configured, and only when you use a cloud endpoint). We still recommend:
 
 - Do not store high-privilege API credentials on public/shared computers
 - Rotate API keys regularly
@@ -91,6 +99,7 @@ For review convenience and token savings, results are kept in **your browser's l
 
 - **Follow-up conversation context (`conv_*`)**: the current tab's follow-up conversation (including page context and a snapshot of the model settings). **As of v1.23 this snapshot always has every API-key field stripped out** (older snapshots written by earlier versions are sanitized in place on load) — **the follow-up context snapshot never contains a key**; follow-up calls re-resolve credentials from your current live settings instead. (Note: if you opt into the "keep keys only until the browser closes" mode described above, your keys are stored in a separate item, `sessionCreds`, in this same storage area — that is a storage location you chose deliberately, and is distinct from this conversation snapshot.)
 - **Side-panel replay log (`panel_*`)**: the already-rendered result messages in side-panel display mode, so the panel can replay after a reopen / SW restart.
+- **API keys in "keep keys only until the browser closes" mode (`sessionCreds`)**: present **only** if you chose that mode under Settings → Key Storage (see "Where your API keys live is your choice" above); never written to disk, never synced, and cleared automatically when the browser closes. This is a separate item from the conversation snapshot above.
 
 `chrome.storage.session` is **never synced, never written to disk, and never sent to the developer**, and it **disappears automatically when the tab / browser session ends** (navigating away or closing the tab also clears its entries).
 
