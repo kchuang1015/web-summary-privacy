@@ -41,6 +41,15 @@ Everything you enter on the Settings page is stored only in your Chrome browser'
 - Translation color, bilingual display preference, translation scope
 - Whether to include page images, result display mode (dialog / side panel)
 
+The Extension's own pages also use `window.localStorage` (not `chrome.storage`) for **6 display
+preferences only** — numbers, booleans and layout coordinates. They contain **no page content, no
+credentials and no personal data**, are never synced and never leave your device:
+`wt-theme` (light/dark/auto theme, used to avoid a first-paint flash), `kgAskPanelW` /
+`kgAskFontPx` (knowledge-graph ask panel width and font size), `kgLegendOpen` / `kgLegendBox`
+(legend collapsed state, window position and size), and `spFontPx` (side panel font size).
+To clear them: use your browser's "Clear browsing data -> Cookies and other site data", or remove
+the Extension.
+
 Keyboard shortcuts are **not** in that list: since v1.39 the Extension has no in-page
 shortcut handling of its own, and the three browser-level shortcuts are managed by
 Chrome's own **Keyboard shortcuts** page (`chrome://extensions/shortcuts`) and stored
