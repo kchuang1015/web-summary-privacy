@@ -2,7 +2,7 @@
 
 **"WholeTake" Chrome Extension**
 
-Last updated: 2026-08-24
+Last updated: 2026-08-30
 
 ---
 
@@ -181,7 +181,8 @@ Material changes will be reflected on this page with an updated "Last updated" d
 
 For any privacy questions:
 
-- Email: kchuang1015@gmail.com
+- Email: support@marlubie.com
+- Website: https://wholetake.marlubie.com/
 
 ---
 
