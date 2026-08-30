@@ -41,12 +41,18 @@ Everything you enter on the Settings page is stored only in your Chrome browser'
 - Translation color, bilingual display preference, translation scope
 - Whether to include page images, result display mode (dialog / side panel)
 
-The Extension's own pages also use `window.localStorage` (not `chrome.storage`) for **6 display
-preferences only** — numbers, booleans and layout coordinates. They contain **no page content, no
-credentials and no personal data**, are never synced and never leave your device:
+The Extension's own pages also use `window.localStorage` (not `chrome.storage`) for **8 display
+preferences only** — numbers, booleans, layout coordinates and your interface language. They
+contain **no page content, no credentials and no personal data**, are never synced and never leave
+your device:
 `wt-theme` (light/dark/auto theme, used to avoid a first-paint flash), `kgAskPanelW` /
 `kgAskFontPx` (knowledge-graph ask panel width and font size), `kgLegendOpen` / `kgLegendBox`
-(legend collapsed state, window position and size), and `spFontPx` (side panel font size).
+(legend collapsed state, window position and size), `spFontPx` (side panel font size),
+`wt-uilang` (the interface language you chose and its text direction, again to avoid a
+first-paint flash), and `wt-uilang-pack` (an offline copy of **the Extension's own** interface
+text file for that language — literally the `_locales/<lang>/messages.json` that ships inside the
+Extension, cached so the first frame can already be in the right language; it contains none of
+your data).
 To clear them: use your browser's "Clear browsing data -> Cookies and other site data", or remove
 the Extension.
 
