@@ -87,6 +87,28 @@ When you actively trigger "Summarize" or "Translate", the Extension sends the fo
 
 The developer has no access to this data and operates no intermediary server.
 
+**What happens with unencrypted (`http://`) endpoints** (as of v1.44): your content only ever goes
+to the endpoint you configured yourself, but sending it in the clear is a risk in its own right, so
+the Extension checks twice — once when you save the setting, and again immediately before every
+request it sends:
+
+- **`https://`** — always allowed.
+- **Local loopback** (`localhost`, `127.0.0.1`, `[::1]`) — allowed: the traffic never leaves your
+  computer (the default Ollama / LM Studio setup).
+- **An IP address on your own LAN** (e.g. `http://192.168.1.50:11434`) — **refused by default**.
+  To use one you must explicitly opt in under "Settings → Model settings → Advanced (risk options)",
+  because other devices on the same network can sniff plaintext traffic.
+- **A LAN endpoint addressed by hostname** (`http://ollama.local`, `http://nas:11434`) — content
+  follows the rule above; but **if that endpoint has an API key, it is refused outright and no
+  setting can allow it** — such names carry no authentication, so any device on the same network
+  can claim the name and receive your key. Use the machine's LAN IP address instead, or `https://`.
+- **An `http://` endpoint on the public internet** — **always refused, with or without a key, and
+  there is no setting that turns this off.** (Before v1.44 an internal field allowed this case; it
+  has been removed entirely.)
+
+The technical criteria and where they are implemented are in the "endpoint transport policy" table
+in SECURITY.md.
+
 **Automatic calls beyond the summary itself** (on by default, all to your same model endpoint, each can be turned off in Settings):
 
 - **Auto tags**: after the summary completes, one extra small call sends the **summary excerpt (up to ~4,000 characters)** plus the title and your existing tag list to extract 3–6 topic tags. When the main summary is served from cache and that record already has tags, this call is not re-run; an older record missing tags gets a one-time backfill call whose result is saved back (a failed backfill is remembered, so it is not re-billed on every cache hit).
