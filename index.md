@@ -2,7 +2,7 @@
 
 **"WholeTake" Chrome Extension**
 
-Last updated: 2026-09-13
+Last updated: 2026-09-18
 
 ---
 
@@ -42,12 +42,12 @@ Everything you enter on the Settings page is stored only in your Chrome browser'
 - Translation color, bilingual display preference, translation scope
 - Whether to include page images, result display mode (dialog / side panel)
 
-The Extension's own pages also use `window.localStorage` (not `chrome.storage`) for **8 display
-preferences only** — numbers, booleans, layout coordinates and your interface language. They
+The Extension's own pages also use `window.localStorage` (not `chrome.storage`) for **9 display and
+ask-panel preferences only** — numbers, booleans, layout coordinates and your interface language (`kgAskDeep` decides whether a question reads all candidates in batches, i.e. how many model calls it makes — not layout). They
 contain **no page content, no credentials and no personal data**, are never synced and never leave
 your device:
 `wt-theme` (light/dark/auto theme, used to avoid a first-paint flash), `kgAskPanelW` /
-`kgAskFontPx` (knowledge-graph ask panel width and font size), `kgLegendOpen` / `kgLegendBox`
+`kgAskFontPx` (knowledge-graph ask panel width and font size), `kgAskDeep` (the ask panel's "deep search" toggle, one boolean), `kgLegendOpen` / `kgLegendBox`
 (legend collapsed state, window position and size), `spFontPx` (side panel font size),
 `wt-uilang` (the interface language you chose and its text direction, again to avoid a
 first-paint flash), and `wt-uilang-pack` (an offline copy of **the Extension's own** interface
@@ -119,7 +119,7 @@ Topic pages, mind maps, and knowledge-base Q&A are **manually triggered** (see S
 
 **YouTube summaries**: on a YouTube video page, the Extension reads the video's caption data from YouTube within that page (the primary path does not use your signed-in credentials; only if it fails, a fallback retries using your existing YouTube session within that page — all reads stay inside the YouTube page and nothing is ever sent to the developer); the caption text is then sent to the AI endpoint you configured (or processed fully on-device by the built-in AI).
 
-**PDF summaries / translations** (v1.49+): when you press Summarize or Translate on a PDF open in Chrome's built-in viewer, the Extension opens its own reader page and **downloads that PDF again from its source URL** (using your existing browser login state, so PDFs behind a login wall work too; the request goes to the URL you are already viewing — not to any new third party, and never to the developer). The file is parsed on your device by a bundled copy of pdf.js; the extracted **text layer** (and, when "include images" is on, **rendered page images** of the pages that contain figures) is then treated **exactly like web-page content**: sent only to the AI endpoint you configured (or processed locally by Chrome built-in AI). Scanned PDFs with no text layer can only be summarized from page images — no OCR. Local `file://` PDFs require that you enable "Allow access to file URLs" for this extension in `chrome://extensions`; otherwise you can drop the file onto the reader page manually. History and translation cache are keyed by the original PDF's URL and title (same rules as section 3).
+**PDF summaries / translations** (v1.49+): when you press Summarize or Translate on a PDF open in Chrome's built-in viewer, the Extension opens its own reader page and **downloads that PDF again from its source URL** (using your existing browser login state, so PDFs behind a login wall work too; the request goes to the URL you are already viewing — not to any new third party, and never to the developer). The file is parsed on your device by a bundled copy of pdf.js; the extracted **text layer** (and, when "include images" is on: for documents with a text layer, the detected **figures and tables cropped as images** — at most 4 per page and 20 per document, cropped on your device; for scanned PDFs with no text layer, **rendered images of whole pages**) is then treated **exactly like web-page content**: sent only to the AI endpoint you configured (or processed locally by Chrome built-in AI). Scanned PDFs with no text layer can only be summarized from page images — no OCR. Local `file://` PDFs require that you enable "Allow access to file URLs" for this extension in `chrome://extensions`; otherwise you can drop the file onto the reader page manually. History and translation cache are keyed by the original PDF's URL and title (same rules as section 3).
 
 **Chrome built-in AI mode**: if you choose "Chrome built-in AI" (Gemini Nano) in Settings, the **model inference for the content above runs entirely on your computer** and **page content is not sent to any external AI endpoint**. Note, however, that **fetching source images, reading YouTube captions, and the one-time download of the built-in model itself can still generate network requests** (to image CDNs, to YouTube, and to the browser's model-download service, respectively).
 
