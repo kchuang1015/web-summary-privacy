@@ -1,4 +1,5 @@
 # Business Customer Data Processing Addendum (WholeTake Cloud)
+{% raw %}
 
 > This document is not legal advice. It has not been reviewed by a lawyer; it was written from public law, Paddle's requirements and the published practice of similar products, and it describes how the service actually works. Retention periods, allowances and prices are those shown on the pricing page.
 
@@ -68,3 +69,4 @@ This addendum is governed by the same law and courts as the terms of service, ex
 ## Related documents
 
 [Privacy policy](https://wholetake.marlubie.com/privacy/) · [Data retention](https://wholetake.marlubie.com/privacy/retention/) · [Subprocessors](https://wholetake.marlubie.com/privacy/subprocessors/) · [Data subject requests](https://wholetake.marlubie.com/privacy/dsr/)
+{% endraw %}

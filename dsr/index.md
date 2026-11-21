@@ -1,4 +1,5 @@
 # Data Subject Requests (WholeTake Cloud)
+{% raw %}
 
 > This document is not legal advice. It has not been reviewed by a lawyer; it was written from public law, Paddle's requirements and the published practice of similar products, and it describes how the service actually works. Retention periods, allowances and prices are those shown on the pricing page.
 
@@ -37,7 +38,7 @@ If a request is manifestly unfounded or excessive (for example, repetitive), we 
 - You can **unpublish** a knowledge package you published to the community directory at any time (one edition or the whole package), and make a public knowledge graph / topic page private again at any time.
 - **Copies other people have already downloaded cannot be recalled**: unpublishing or deleting your account removes it from the directory and the server files are deleted under the retention policy, but copies others already downloaded and imported into their own knowledge graphs are beyond the operator's reach. The license-confirmation screen says so before you publish.
 - A suggested correction of yours that the author merged becomes part of the author's edition; after you delete your account, the directory shows the attribution as "deleted account".
-- If you believe content someone else published infringes your rights, press "Report" on that item in the directory or email support@marlubie.com with the item's link, which rights are affected and why, and how to reach you. We review reports without undue delay and tell the author what we decided and why; the author can appeal a takedown within the appeal window (30 days, technical constant). Content removed under a court or authority order, or a legal notice, is handled as that order or notice requires, and the edition is deleted from our servers at once (copies in backups disappear when the backups rotate out under the retention policy).
+- If you believe content someone else published infringes your rights, press "Report" on that item in the directory (once the community directory opens) or email support@marlubie.com with the item's link, which rights are affected and why, and how to reach you. We review reports without undue delay and tell the author what we decided and why; the author can appeal a takedown within the appeal window (30 days, technical constant). Content removed under a court or authority order, or a legal notice, is handled as that order or notice requires, and the edition is deleted from our servers at once (copies in backups disappear when the backups rotate out under the retention policy).
 
 ## Outside this process
 
@@ -47,3 +48,4 @@ If a request is manifestly unfounded or excessive (for example, repetitive), we 
 ## Related documents
 
 [Privacy policy](https://wholetake.marlubie.com/privacy/) · [Data retention](https://wholetake.marlubie.com/privacy/retention/) · [Subprocessors](https://wholetake.marlubie.com/privacy/subprocessors/) · [Business customer data processing addendum](https://wholetake.marlubie.com/privacy/dpa/)
+{% endraw %}
